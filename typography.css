@@ -80,7 +80,6 @@
   color: var(--slateblue);
 }
 
-.icon-github:before,
-.icon-linkedin:before {
+.icon-github:before {
   color: var(--mildblack);
 }

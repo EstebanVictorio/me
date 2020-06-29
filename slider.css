@@ -1,0 +1,6 @@
+.slider {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  list-style-type: none;
+}

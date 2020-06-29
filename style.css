@@ -26,7 +26,7 @@
 }
 
 .name {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
 }
 
 .current-role {
@@ -34,9 +34,16 @@
   color: slateblue;
 }
 
-.what-i-do {
-  font-weight: 200;
+.welcome {
   font-size: 1rem;
+  font-weight: 200;
+}
+
+.stuff__list {
+  display: flex;
+  list-style-type: none;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .hero {
@@ -57,17 +64,42 @@
   position: relative;
   list-style-type: none;
   box-sizing: border-box;
+  transition: filter 0.2s;
   grid-template-rows: repeat(2, 1fr);
 }
 
 .hex__grid-list-item {
+  z-index: 1;
   width: 100%;
   display: flex;
-  filter: drop-shadow(2px 2.5px 5px var(--lightgray));
+  position: relative;
+}
+
+.hex__grid-list:hover {
+  filter: drop-shadow(2px -1px 4px gray) drop-shadow(2px 8px 10px gray);
 }
 
 .hex__container {
   flex-grow: 1;
+}
+
+.hex__grid-list [class^="icon-"] {
+  padding: 0.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--lightgray);
+}
+
+.hex__grid-list:hover [class^="icon-"] {
+  border: none;
+}
+
+.hex__grid-list:hover .hex__grid-list-item--tainted .hex {
+  background-color: var(--slateblue);
+}
+
+.hex__grid-list:hover .icon-github:before,
+.hex__grid-list:hover .icon-linkedin:before {
+  color: white;
 }
 
 .hex,
@@ -86,6 +118,7 @@
 .hex {
   width: 3rem;
   height: 3rem;
+  transition: background-color 0.2s;
   background-color: var(--landscape);
 }
 
@@ -95,13 +128,59 @@
 }
 
 .hex__grid-list-item--tainted {
-  top: 2rem;
+  z-index: 0;
+  top: 1.5rem;
   position: absolute;
   box-sizing: border-box;
   padding-left: calc(15vw + 2.25rem);
   padding-right: calc(15vw + 2.25rem);
 }
 
-.hex__grid-list-item--tainted .hex {
-  background-color: var(--slateblue);
+.stuff__link {
+  color: var(--mildblack);
+}
+
+.profile-button__container {
+  right: 2rem;
+  bottom: 2rem;
+  filter: none;
+  display: flex;
+  width: 3.0625rem;
+  height: 3.0625rem;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  transition: filter 0.2s;
+}
+
+.profile-button__container:hover {
+  filter: drop-shadow(2px -1px 4px gray) drop-shadow(2px 8px 10px gray);
+}
+
+.icon-profile {
+  z-index: 1;
+  pointer-events: none;
+  position: relative;
+}
+
+.profile-button {
+  z-index: 0;
+  border: none;
+  outline: none;
+  border-radius: 50%;
+  position: absolute;
+  width: calc(100% - 0.625rem);
+  height: calc(100% - 0.625rem);
+  background-color: var(--landscape);
+  /* clip-path: polygon(75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0); */
+}
+
+.slider__item figure {
+  width: 6.25rem;
+  height: 6.25rem;
+}
+
+.slider__item figure img {
+  width: 100%;
+  height: 100%;
 }

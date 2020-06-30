@@ -2,6 +2,22 @@
   background-color: var(--landscape);
 }
 
+.hero,
+.hero__headings,
+.main-content {
+  margin: 0 auto;
+  max-width: 90rem;
+  display: inline-block;
+}
+
+.separator {
+  border: none;
+  margin: 0 15vw;
+  height: 0.0625rem;
+  max-width: calc(100% - 30vw);
+  background-color: var(--lightgray);
+}
+
 .profile-pic__container {
   width: 5rem;
   height: 5rem;
@@ -26,16 +42,16 @@
 }
 
 .name {
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 .current-role {
-  font-size: 1.2rem;
+  font-size: 1.75rem;
   color: slateblue;
 }
 
 .welcome {
-  font-size: 1rem;
+  font-size: 1.5rem;
   font-weight: 200;
 }
 
@@ -183,4 +199,14 @@
 .slider__item figure img {
   width: 100%;
   height: 100%;
+}
+
+@media screen and (min-width: 720px) {
+  .separator {
+    display: none;
+  }
+
+  .hex__grid-list {
+    display: none;
+  }
 }

@@ -3,11 +3,17 @@
 }
 
 .hero,
-.hero__headings,
-.main-content {
+.main-content,
+.hero__headings {
   margin: 0 auto;
+  padding: 0 15vw;
   max-width: 90rem;
-  display: inline-block;
+  display: block;
+}
+
+.main-content {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .separator {
@@ -64,19 +70,22 @@
 
 .hero {
   display: flex;
-  padding: 15vh 15vw 0 15vw;
+  padding-top: 15vh;
 }
 
 .hero__headings {
   display: grid;
   row-gap: 1rem;
+  padding-top: 2rem;
   grid-row-gap: 1rem;
-  padding: 2rem 15vw;
+  padding-bottom: 2rem;
 }
 
 .hex__grid-list {
   display: grid;
-  padding: 0 15vw;
+  margin: 0 auto;
+  padding: 0;
+  width: 13.75rem;
   position: relative;
   list-style-type: none;
   box-sizing: border-box;
@@ -147,9 +156,9 @@
   z-index: 0;
   top: 1.5rem;
   position: absolute;
+  padding-left: 2.25rem;
   box-sizing: border-box;
-  padding-left: calc(15vw + 2.25rem);
-  padding-right: calc(15vw + 2.25rem);
+  padding-right: 2.25rem;
 }
 
 .stuff__link {
@@ -201,6 +210,10 @@
   height: 100%;
 }
 
+.enlisted::after {
+  content: " below";
+}
+
 @media screen and (min-width: 720px) {
   .separator {
     display: none;
@@ -208,5 +221,9 @@
 
   .hex__grid-list {
     display: none;
+  }
+
+  .enlisted::after {
+    content: " above";
   }
 }

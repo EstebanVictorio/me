@@ -9,9 +9,29 @@
     <link rel="stylesheet" href="norm.css" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="slider.css" />
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Esteban Victorio" />
+    <meta name="description" content="Coding, reading, videogames" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://evictorio.com/" />
+    <meta property="og:title" content="Esteban Victorio" />
+    <meta property="og:description" content="Coding, reading, videogames" />
+    <meta property="og:image" content="" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://evictorio.com/" />
+    <meta property="twitter:title" content="Esteban Victorio" />
+    <meta
+      property="twitter:description"
+      content="Coding, reading, videogames"
+    />
+    <meta property="twitter:image" content="" />
   </head>
   <body class="light">
-    <ul>
+    <ul class="headers__list">
       <header class="hero">
         <figure class="profile-pic__container">
           <img
@@ -25,17 +45,47 @@
       <header class="hero__headings">
         <h1 class="name">Esteban Victorio</h1>
         <h2 class="current-role">Front-End Engineer</h2>
-        <h3 class="welcome">Hi there 👋</h3>
+        <h3 class="welcome">hello_world 👋</h3>
       </header>
       <header class="hero-hex__deck">
-        <!-- TODO: add the menu deck -->
+        <ul class="hex__grid-list">
+          <li class="hex__grid-list-item">
+            <div class="hex__container">
+              <div class="hex">
+                <i class="icon-twitter"></i>
+              </div>
+            </div>
+            <div class="hex__container">
+              <div class="hex hex--tainted">
+                <i class="icon-gmail"></i>
+              </div>
+            </div>
+            <div class="hex__container">
+              <div class="hex hex--tainted">
+                <i class="icon-whatsapp"></i>
+              </div>
+            </div>
+          </li>
+          <li class="hex__grid-list-item hex__grid-list-item--tainted">
+            <div class="hex__container">
+              <div class="hex">
+                <i class="icon-github"></i>
+              </div>
+            </div>
+            <div class="hex__container">
+              <div class="hex hex--tainted">
+                <i class="icon-linkedin"></i>
+              </div>
+            </div>
+          </li>
+        </ul>
       </header>
     </ul>
 
     <hr class="separator" />
     <main class="main-content">
       <section id="what-i-do" class="section">
-        <h3>What I do (mostly)</h3>
+        <h4>What I do (mostly)</h4>
         <p>
           My agenda runs through a front-end engineering daily basis diet,
           accompanied by some crazy stuff around DevOps and some back-end
@@ -59,14 +109,14 @@
         </p>
       </section>
       <section id="reach-out" class="reach-out">
-        <h3>Reach out!</h3>
+        <h4>Reach out!</h4>
         <p>
           If you have any topics that you want to discuss with me, don't
           hesitate to contact me in any of the social media
           <span class="enlisted">enlisted</span>.
         </p>
       </section>
-      <ul class="hex__grid-list">
+      <ul class="hex__grid-list mobile__hex-menu">
         <li class="hex__grid-list-item">
           <div class="hex__container">
             <div class="hex">

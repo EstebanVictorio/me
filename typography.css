@@ -1,12 +1,12 @@
 @font-face {
-  font-weight: 400;
+  font-weight: bold;
   font-style: normal;
   font-family: FiraSans;
-  src: url("fonts/FiraSansCondensed-Regular.ttf") format("truetype");
+  src: url("fonts/FiraSansCondensed-ExtraBold.ttf") format("truetype");
 }
 
 @font-face {
-  font-weight: bold;
+  font-weight: 300;
   font-style: normal;
   font-family: FiraSans;
   src: url("fonts/FiraSansCondensed-Bold.ttf") format("truetype");
@@ -16,19 +16,19 @@
   font-weight: 200;
   font-style: normal;
   font-family: FiraSans;
-  src: url("fonts/FiraSansCondensed-ExtraLight.ttf") format("truetype");
+  src: url("fonts/FiraSansCondensed-Regular.ttf") format("truetype");
 }
 
 @font-face {
+  font-style: normal;
+  font-weight: normal;
+  font-display: block;
   font-family: "icomoon";
   src: url("fonts/icomoon.eot?fllytr");
   src: url("fonts/icomoon.eot?fllytr#iefix") format("embedded-opentype"),
-    url("fonts/icomoon.ttf?fllytr") format("truetype"),
     url("fonts/icomoon.woff?fllytr") format("woff"),
+    url("fonts/icomoon.ttf?fllytr") format("truetype"),
     url("fonts/icomoon.svg?fllytr#icomoon") format("svg");
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
 }
 
 [class^="icon-"],

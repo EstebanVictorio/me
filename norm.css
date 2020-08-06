@@ -1,5 +1,6 @@
 body {
   font-family: FiraSans;
+  color: var(--mildblack);
 }
 
 h1,
@@ -15,6 +16,10 @@ body,
 figure {
   margin: 0;
   padding: 0;
+}
+
+h4 {
+  color: slateblue;
 }
 
 p {

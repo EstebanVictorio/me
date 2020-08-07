@@ -2,6 +2,10 @@
   background-color: var(--landscape);
 }
 
+#stuff-i-do {
+  margin: 2rem 15vw;
+}
+
 .main-content {
   margin: 0 auto;
   padding: 0 15vw;
@@ -60,10 +64,14 @@
 }
 
 .stuff__list {
-  display: flex;
+  display: grid;
   list-style-type: none;
-  flex-direction: column;
-  justify-content: space-around;
+  grid-template-rows: repeat(4, auto);
+  grid-gap: 1rem;
+}
+
+.stuff__list-item {
+  cursor: pointer;
 }
 
 .hero {

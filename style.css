@@ -7,15 +7,18 @@
 }
 
 .main-content {
+  display: block;
   margin: 0 auto;
   padding: 0 15vw;
   max-width: 90rem;
-  display: block;
-}
-
-.main-content {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.main-content,
+.headers__list {
+  margin: 0 auto;
+  max-width: 840px;
 }
 
 .separator {
@@ -106,12 +109,13 @@
   position: relative;
 }
 
-.hex__grid-list:hover {
+/* .hex__grid-list:hover {
   filter: drop-shadow(2px -1px 4px gray) drop-shadow(2px 8px 10px gray);
-}
+} */
 
 .hex__container {
   flex-grow: 1;
+  position: relative;
 }
 
 .hex__grid-list [class^="icon-"] {
@@ -120,25 +124,25 @@
   border: 1px solid var(--lightgray);
 }
 
-.hex__grid-list:hover [class^="icon-"] {
+/* .hex__grid-list:hover [class^="icon-"] {
   border: none;
 }
 
 .hex__grid-list:hover .hex__grid-list-item--tainted .hex {
   background-color: var(--slateblue);
-}
+} */
 
-.hex__grid-list:hover .icon-github:before,
+/* .hex__grid-list:hover .icon-github:before,
 .hex__grid-list:hover .icon-linkedin:before {
   color: white;
-}
+} */
 
 .hex,
 .hex__container {
   display: flex;
   align-items: center;
   justify-content: center;
-  clip-path: polygon(75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0);
+  /* clip-path: polygon(75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%, 25% 0); */
 }
 
 .hex__container {
@@ -149,6 +153,8 @@
 .hex {
   width: 3rem;
   height: 3rem;
+  cursor: pointer;
+  position: relative;
   transition: background-color 0.2s;
   background-color: var(--landscape);
 }
@@ -159,8 +165,11 @@
 }
 
 .hex__grid-list-item--tainted {
+  top: 3rem;
+}
+
+.hex__grid-list-item--tainted {
   z-index: 0;
-  top: 1.5rem;
   position: absolute;
   padding-left: 2.25rem;
   box-sizing: border-box;
@@ -190,7 +199,6 @@
 
 .icon-profile {
   z-index: 1;
-  pointer-events: none;
   position: relative;
 }
 
@@ -264,6 +272,13 @@
     grid-column: 2;
     justify-self: end;
     align-self: center;
-    transform: perspective(218px) rotateY(-34deg) rotateX(26deg);
+    transition: transform 0.2s;
+    /* transform: perspective(218px) rotateY(-34deg) rotateX(26deg); */
   }
+}
+
+.hex__container a {
+  z-index: 5;
+  position: absolute;
+  text-decoration: none;
 }

@@ -254,7 +254,8 @@
   .hero-hex__deck {
     grid-row: 2;
     grid-column: 2;
-    align-self: center;
     justify-self: end;
+    align-self: center;
+    transform: perspective(218px) rotateY(-34deg) rotateX(26deg);
   }
 }

@@ -3,14 +3,15 @@
 }
 
 #stuff-i-do {
-  margin: 2rem 15vw;
+  margin: 0 auto;
+  max-width: 840px;
+  padding: 2rem 15vw;
 }
 
 .main-content {
   display: block;
   margin: 0 auto;
   padding: 0 15vw;
-  max-width: 90rem;
   padding-top: 2rem;
   padding-bottom: 2rem;
 }

@@ -39,6 +39,7 @@
   box-shadow: 1px 1px 25px 2px var(--mildblack);
 }
 
+/* current state of the pic */
 .profile-pic {
   width: 100%;
   height: 100%;

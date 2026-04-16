@@ -1,16 +1,281 @@
 ---
+import '../styles/global.css';
+import ThemeToggle from '../components/ThemeToggle';
 
+const experience = [
+  {
+    years: '2024 – 2026',
+    title: 'Senior Front-End Engineer',
+    company: 'Eden',
+    industry: 'Radiology / Medical Imaging',
+    description:
+      'Built and maintained features in a DICOM viewer to sharpen diagnostic workflows for medical practitioners. Collaborated on a domain-driven, hexagonal architecture and provided rapid support to unblock clinical teams in critical situations.',
+    stack: ['React', 'TypeScript', 'Tailwind', 'Cornerstone.js', 'GraphQL', 'Apollo Client', 'Storybook'],
+  },
+  {
+    years: '2023 – 2024',
+    title: 'Fullstack Engineer',
+    company: 'Page Consulting',
+    industry: 'Research Tools',
+    description:
+      'Developed a workflow automation application for researchers, replacing fragile manual spreadsheet processes with a structured, reliable tool. Conducted regular client demos and iterated based on direct feedback.',
+    stack: ['React', 'TypeScript', 'GraphQL', 'Apollo Client', 'JSON Schema', 'AWS', 'Localstack', 'Storybook'],
+  },
+  {
+    years: '2022 – 2023',
+    title: 'Front-End Engineer / Tech Lead',
+    company: 'Octahedroid',
+    industry: 'E-Commerce / Web Platforms',
+    description:
+      'Led technical decisions and mentored junior engineers while shipping customer-facing and internal tooling. Negotiated scope with product teams and advocated for maintainable architecture under real delivery constraints.',
+    stack: ['React', 'Remix', 'TypeScript', 'TailwindCSS', 'Prisma', 'GraphQL', 'Zod', 'Vite'],
+  },
+  {
+    years: '2021 – 2022',
+    title: 'Front-End Engineer',
+    company: 'Clip',
+    industry: 'FinTech / Electronic Payments',
+    description:
+      'Built and maintained a merchant payments dashboard, delivering PCI compliance flows and invoice tooling that handled sensitive financial data at scale. Worked closely with the team to ship features that met both regulatory and user requirements.',
+    stack: ['React', 'JavaScript', 'MUI', 'Emotion', 'Redux', 'Redux Thunks', 'Storybook', 'AWS'],
+  },
+  {
+    years: '2020 – 2021',
+    title: 'Front-End Engineer',
+    company: 'Octahedroid',
+    industry: 'E-Commerce / Edge Computing',
+    description:
+      'Delivered projects for multiple clients across Gatsby, Next.js, and Remix, including Stripe and Shopify integrations. Created framework comparison PoCs to guide architectural decisions before committing to production tech stacks.',
+    stack: ['React', 'Gatsby', 'Next.js', 'TypeScript', 'GraphQL', 'Stripe', 'Emotion', 'TailwindCSS'],
+  },
+  {
+    years: '2019 – 2020',
+    title: 'Front-End Engineer',
+    company: 'Casai',
+    industry: 'Real Estate / Travel',
+    description:
+      'Built the web and mobile booking experience for a hospitality startup, integrating Django-backed authentication and collaborating directly with the design team to ship both platforms on tight deadlines.',
+    stack: ['React', 'TypeScript', 'Django', 'Python', 'Emotion', 'Redux', 'Redux Observable'],
+  },
+  {
+    years: '2019 – 2020',
+    title: 'Front-End Developer',
+    company: 'Grin Scooters / Grow Mobility',
+    industry: 'Micro-mobility',
+    description:
+      'Developed a charging operations tool giving field teams real-time visibility into vehicle battery levels, location data, and remote control capabilities — lock, unlock, and dispatch operations sent directly to scooters.',
+    stack: ['React', 'Next.js', 'JavaScript', 'Styled Components', 'Redux', 'Redux Saga'],
+  },
+];
+
+const stack = [
+  {
+    label: 'Core',
+    items: ['TypeScript', 'JavaScript', 'HTML', 'CSS'],
+    primary: [0, 1],
+  },
+  {
+    label: 'UI',
+    items: ['React', 'Tailwind CSS', 'MUI', 'Emotion', 'Styled Components'],
+    primary: [0, 1],
+  },
+  {
+    label: 'Frameworks',
+    items: ['Next.js', 'Gatsby', 'Remix'],
+    primary: [0, 1, 2],
+  },
+  {
+    label: 'Data',
+    items: ['GraphQL', 'REST', 'Apollo Client', 'Prisma', 'Zod'],
+    primary: [0, 1],
+  },
+  {
+    label: 'State',
+    items: ['Zustand', 'Redux', 'Redux Saga', 'Redux Observable'],
+    primary: [0, 1],
+  },
+  {
+    label: 'Testing',
+    items: ['React Testing Library', 'Jest', 'Storybook'],
+    primary: [0, 1],
+  },
+  {
+    label: 'Tooling',
+    items: ['Vite', 'AWS', 'Localstack', 'Astro'],
+    primary: [0],
+  },
+];
 ---
 
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Esteban Victorio — Senior Front-End Engineer with 7+ years building production interfaces across medical imaging, fintech, and micromobility."
+    />
+    <title>Esteban Victorio — Front-End Engineer</title>
+    <!-- Prevent flash of wrong theme on load -->
+    <script is:inline>
+      (function () {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved === 'dark' || (!saved && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+
+    <!-- ── Navigation ─────────────────────────── -->
+    <nav class="nav">
+      <a href="#top" class="nav-logo">EV</a>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="#work">Work</a>
+          <a href="#stack">Stack</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <ThemeToggle client:load />
+      </div>
+    </nav>
+
+    <!-- ── Hero ───────────────────────────────── -->
+    <header id="top" class="hero">
+      <div class="container">
+        <p class="hero-supertitle">Front-End Engineer</p>
+        <h1 class="hero-name">
+          ESTEBAN<br />VICTORIO
+        </h1>
+        <hr class="hero-rule" />
+        <div class="hero-bottom">
+          <div>
+            <p class="hero-bio">
+              Senior front-end engineer who ships production interfaces for complex domains —
+              from <strong>DICOM viewers</strong> for radiologists to
+              <strong>payments dashboards</strong> for merchants.
+              Strong TypeScript, React across every major framework,
+              and enough backend experience to not slow the team down.
+            </p>
+            <div class="hero-links">
+              <a href="mailto:estebanvictorio92@gmail.com">
+                estebanvictorio92@gmail.com <span aria-hidden="true">↗</span>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/esteban-burgue%C3%B1o-victorio9a0a42107/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <span class="hero-stat-num">7+</span>
+              <span class="hero-stat-label">Years</span>
+            </div>
+            <div>
+              <span class="hero-stat-num">7</span>
+              <span class="hero-stat-label">Companies</span>
+            </div>
+            <div>
+              <span class="hero-stat-num">6</span>
+              <span class="hero-stat-label">Industries</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Experience ─────────────────────────── -->
+    <section id="work" class="work">
+      <div class="container">
+        <p class="section-label">Work</p>
+        <div class="experience-list">
+          {experience.map((exp) => (
+            <div class="experience-item">
+              <div class="exp-dates">{exp.years}</div>
+              <div class="exp-content">
+                <div class="exp-title">{exp.title}</div>
+                <div class="exp-meta">
+                  <span class="exp-company">{exp.company}</span>
+                  <span class="exp-industry">{exp.industry}</span>
+                </div>
+                <p class="exp-desc">{exp.description}</p>
+                <div class="exp-stack">
+                  {exp.stack.map((tag) => (
+                    <span class="exp-tag">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Stack ──────────────────────────────── -->
+    <section id="stack" class="stack-section">
+      <div class="container">
+        <p class="section-label">Stack</p>
+        <div class="stack-groups">
+          {stack.map((group) => (
+            <div class="stack-group">
+              <span class="stack-group-label">{group.label}</span>
+              <div class="stack-items">
+                {group.items.map((item, i) => (
+                  <Fragment>
+                    {i > 0 && <span class="stack-sep" aria-hidden="true">·</span>}
+                    <span class:list={['stack-item', { primary: group.primary.includes(i) }]}>
+                      {item}
+                    </span>
+                  </Fragment>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Contact ────────────────────────────── -->
+    <footer id="contact" class="contact">
+      <div class="container">
+        <p class="section-label">Contact</p>
+        <p class="contact-status">Available for new opportunities</p>
+        <h2 class="contact-cta">Let's build something worth using.</h2>
+        <div class="contact-links">
+          <a href="mailto:estebanvictorio92@gmail.com" class="contact-link">
+            estebanvictorio92@gmail.com
+            <span class="contact-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/esteban-burgue%C3%B1o-victorio9a0a42107/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-link"
+          >
+            LinkedIn
+            <span class="contact-link-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+        <div class="page-footer">
+          <span class="page-footer-copy">© 2026 Esteban Victorio</span>
+          <span class="page-footer-copy">Built with Astro</span>
+        </div>
+      </div>
+    </footer>
+
+  </body>
 </html>

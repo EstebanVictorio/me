@@ -1,0 +1,125 @@
+/*
+ * Brand color — from brand-guidelines.pdf (pp. 08–09).
+ *
+ * Three named colors, used in a fixed 60 / 30 / 10 ratio (plus Bronze, below):
+ *   Big Stone  #1A2340  60%  background — pages and space
+ *   Janna      #F4EAD5  30%  text — headlines and body copy
+ *   Rob Roy    #E8C77A  10%  accent — buttons and highlights
+ *
+ * Tailwind's default palette is removed on purpose: only brand colors exist,
+ * so `bg-blue-500` and friends fail to compile into anything. Use the
+ * semantic roles (bg-background, text-foreground, bg-accent…), which follow
+ * the theme; raw scale steps do NOT change with the theme.
+ *
+ * What reads on what (guide p. 09):
+ *   ✓ foreground on background   12.9:1  (light, Big Stone dark) · 6.2:1 (Bronze dark)
+ *   ✓ accent on background        9.5:1  (Big Stone dark) · 4.6:1 (Bronze dark, shapes)
+ *   ✓ background on accent        9.5:1
+ *   ✗ accent on foreground        1.4:1  — shapes only, never text
+ *   ✗ foreground on accent tint   1.1:1  — shapes only, never text
+ */
+
+/* `static`: always emit the palette, since the theme blocks reference it at runtime. */
+@theme static {
+  --color-*: initial;
+
+  /* Big Stone — navy. 500 is the brand value; 400 is a derived raised surface. */
+  --color-big-stone-100: #bfc1c9;
+  --color-big-stone-300: #757a89;
+  --color-big-stone-400: #283152;
+  --color-big-stone-500: #1a2340;
+  --color-big-stone-700: #121829;
+  --color-big-stone-900: #0a0d16;
+
+  /* Janna — warm light. 500 is the brand value. */
+  --color-janna-100: #fbf8f1;
+  --color-janna-300: #f7f0e2;
+  --color-janna-500: #f4ead5;
+  --color-janna-700: #aaa393;
+  --color-janna-900: #686258;
+
+  /* Rob Roy — gold. 500 is the brand value. */
+  --color-rob-roy-100: #faf0d9;
+  --color-rob-roy-300: #f2dfb0;
+  --color-rob-roy-500: #e8c77a;
+  --color-rob-roy-700: #a08a55;
+  --color-rob-roy-900: #615432;
+
+  /* Bronze — Rob Roy 900 promoted to a primary of its own (default dark page).
+     500 is the brand value (#615432); other steps are OKLCH ramps on its hue (89°). */
+  --color-bronze-100: #f8f3e6;
+  --color-bronze-200: #e8e1cf;
+  --color-bronze-300: #c6ba9a;
+  --color-bronze-400: #938561;
+  --color-bronze-500: #615432;
+  --color-bronze-600: #534625;
+  --color-bronze-700: #433614;
+  --color-bronze-800: #332704;
+  --color-bronze-900: #231900;
+}
+
+/*
+ * Themes. Roles are runtime variables swapped by `data-theme` on <html>
+ * (set before first paint by the inline script in Layout.astro).
+ *
+ *   light (default)   Janna page, Big Stone text   — guide "Background on text"  12.9:1
+ *   dark              Bronze page, Janna text                                      6.2:1
+ *   dark + big-stone  Big Stone page, Janna text   — guide "Text on background"  12.9:1
+ *                     opt in with data-dark-palette="big-stone" on <html>
+ *
+ * Rob Roy stays the fill color in every theme (`bg-accent`, label `text-on-accent`).
+ * As *text* use `text-accent-ink`, which picks a shade that reads on the page:
+ * Rob Roy 900 on Janna (6.2:1), Rob Roy 300 on Bronze (5.7:1), Rob Roy on Big
+ * Stone (9.5:1). Plain Rob Roy text on Janna is 1.4:1 ("shapes only, not text").
+ */
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+  --theme-background: var(--color-janna-500);
+  --theme-foreground: var(--color-big-stone-500);
+  /* ≈6.1:1 on Janna */
+  --theme-foreground-muted: color-mix(in oklab, var(--color-big-stone-500) 72%, var(--color-janna-500));
+  --theme-surface: color-mix(in oklab, var(--color-big-stone-500) 8%, var(--color-janna-500));
+  /* ≈6.2:1 on Janna */
+  --theme-accent-ink: var(--color-rob-roy-900);
+}
+
+/* Default dark: Bronze. */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --theme-background: var(--color-bronze-500);
+  --theme-foreground: var(--color-janna-500);
+  /* Bronze is lighter than Big Stone, so muted text keeps more Janna: ≈5.0:1. */
+  --theme-foreground-muted: color-mix(in oklab, var(--color-janna-500) 85%, var(--color-bronze-500));
+  --theme-surface: color-mix(in oklab, var(--color-janna-500) 8%, var(--color-bronze-500));
+  /* ≈5.7:1 on Bronze (plain Rob Roy is only 4.6:1) */
+  --theme-accent-ink: var(--color-rob-roy-300);
+}
+
+/* Alternative dark: the original Big Stone night. */
+[data-theme="dark"][data-dark-palette="big-stone"] {
+  --theme-background: var(--color-big-stone-500);
+  --theme-foreground: var(--color-janna-500);
+  /* ≈6.9:1 on Big Stone */
+  --theme-foreground-muted: color-mix(in oklab, var(--color-janna-500) 72%, var(--color-big-stone-500));
+  --theme-surface: var(--color-big-stone-400);
+  --theme-accent-ink: var(--color-rob-roy-500);
+}
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+/* Semantic roles. `inline` so utilities emit the runtime variable and follow the theme. */
+@theme inline {
+  --color-background: var(--theme-background);
+  --color-surface: var(--theme-surface);
+  --color-foreground: var(--theme-foreground);
+  /* Secondary text; mix is tuned per theme to stay ≥4.5:1 (see theme blocks). */
+  --color-foreground-muted: var(--theme-foreground-muted);
+  --color-border: color-mix(in oklab, var(--theme-foreground) 16%, transparent);
+  --color-accent: var(--color-rob-roy-500);
+  --color-accent-strong: var(--color-rob-roy-300);
+  --color-accent-ink: var(--theme-accent-ink);
+  --color-on-accent: var(--color-big-stone-500);
+}

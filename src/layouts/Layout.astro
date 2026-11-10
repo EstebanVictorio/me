@@ -1,0 +1,51 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = 'Esteban Victorio' } = Astro.props;
+---
+
+<!doctype html>
+<!-- Dark mode uses Bronze. Add data-dark-palette="big-stone" here for the Big Stone night instead. -->
+<html lang="en" data-theme="light">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={description} />
+		<meta name="theme-color" content="#f4ead5" />
+		<!-- Set the theme before first paint: the visitor's stored choice
+		     (localStorage "theme"), else the OS setting, else light.
+		     Keep in sync with src/components/ThemeToggle.astro. -->
+		<script is:inline>
+			(() => {
+				const root = document.documentElement;
+				let theme = null;
+				try {
+					theme = localStorage.getItem('theme');
+				} catch {}
+				if (theme !== 'light' && theme !== 'dark') {
+					theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				}
+				root.dataset.theme = theme;
+				const dark = root.dataset.darkPalette === 'big-stone' ? '#1a2340' : '#615432';
+				document
+					.querySelector('meta[name="theme-color"]')
+					?.setAttribute('content', theme === 'dark' ? dark : '#f4ead5');
+			})();
+		</script>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<Font cssVariable="--font-cormorant-garamond" preload />
+		<Font cssVariable="--font-niramit" preload />
+		<title>{title}</title>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>

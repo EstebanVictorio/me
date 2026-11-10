@@ -1,0 +1,69 @@
+/*
+ * Brand typography — from brand-guidelines.pdf (pp. 04–07).
+ *
+ *   Cormorant Garamond  headlines only (display, h1, h2)
+ *   Niramit             everything people read (h3, body, small, label)
+ *
+ * Font files are loaded by Astro's Fonts API (astro.config.mjs) and exposed
+ * as --font-cormorant-garamond / --font-niramit; the <Font /> tags live in
+ * src/layouts/Layout.astro.
+ *
+ * Use the brand sizes below (text-display, text-h1, text-body…) instead of
+ * Tailwind's generic text-xl / text-4xl. Each size carries its own
+ * line-height, tracking and, where the guide specifies it, weight.
+ * Never stretch or squash the type (guide p. 13).
+ */
+
+@theme inline {
+  --font-heading: var(--font-cormorant-garamond);
+  --font-body: var(--font-niramit);
+  --font-serif: var(--font-cormorant-garamond);
+  --font-sans: var(--font-niramit);
+}
+
+@theme {
+  /* Extension above the guide's Display step, for single-statement heroes. */
+  --text-display-xl: clamp(3.5rem, 1.75rem + 8vw, 6rem);
+  --text-display-xl--line-height: 0.95;
+  --text-display-xl--letter-spacing: -0.02em;
+
+  /* Display — Cormorant Garamond · 64 / 1.0 / −2% */
+  --text-display: clamp(2.75rem, 1.9rem + 3.6vw, 4rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.02em;
+
+  /* H1 — Cormorant Garamond · 44 / 1.1 */
+  --text-h1: clamp(2.25rem, 1.95rem + 1.3vw, 2.75rem);
+  --text-h1--line-height: 1.1;
+
+  /* H2 — Cormorant Garamond · 32 / 1.15 */
+  --text-h2: clamp(1.75rem, 1.6rem + 0.6vw, 2rem);
+  --text-h2--line-height: 1.15;
+
+  /* H3 — Niramit · 22 / 1.3 · Semibold */
+  --text-h3: 1.375rem;
+  --text-h3--line-height: 1.3;
+  --text-h3--font-weight: 600;
+
+  /* Intro — Niramit · 40 */
+  --text-intro: clamp(1.625rem, 1.2rem + 1.8vw, 2.5rem);
+  --text-intro--line-height: 1.3;
+
+  /* Large — Niramit · 24 */
+  --text-large: clamp(1.25rem, 1.15rem + 0.45vw, 1.5rem);
+  --text-large--line-height: 1.45;
+
+  /* Body — Niramit · 17 / 1.6 */
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+
+  /* Small — Niramit · 14 / 1.5 */
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+
+  /* Label — Niramit · 12 · Semibold caps · +12%. Pair with `uppercase`. */
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.12em;
+  --text-label--font-weight: 600;
+}

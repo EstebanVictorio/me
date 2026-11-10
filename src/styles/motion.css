@@ -1,0 +1,52 @@
+/*
+ * Brand motion. Calm and unhurried, like the serif it accompanies:
+ * exponential ease-outs only, no bounce, no elastic.
+ *
+ * Entrances are keyframe animations with `both` fill, so content is always
+ * reachable without JS. Stagger with `animate-delay-<ms>` (e.g. animate-delay-150).
+ * Reduced motion collapses every animation and transition to its end state.
+ */
+
+@theme {
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-rise: rise 1.1s var(--ease-out-expo) both;
+  --animate-fade: fade 1.4s var(--ease-out-quart) both;
+  --animate-sun: sun 2.2s var(--ease-out-expo) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+      filter: blur(6px);
+    }
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes sun {
+    from {
+      opacity: 0;
+      transform: translateY(35%) scale(0.92);
+    }
+  }
+}
+
+@utility animate-delay-* {
+  animation-delay: calc(--value(integer) * 1ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,95 @@
+---
+// Dark / light theme switch. The knob is the brand's Rob Roy circle; its
+// position and icon come from the `light:` / `dark:` variants, so the visual
+// state needs no JS. Icons: Feather (moon, sun), MIT.
+---
+
+<button
+	type="button"
+	role="switch"
+	aria-checked="false"
+	aria-label="Dark theme"
+	data-theme-toggle
+	class="inline-flex h-8 w-14 shrink-0 cursor-pointer items-center rounded-full border border-foreground-muted p-1 transition-colors duration-300 ease-out-quart hover:border-foreground"
+>
+	<span
+		aria-hidden="true"
+		class="flex size-6 items-center justify-center rounded-full bg-accent text-on-accent transition-transform duration-500 ease-out-expo light:translate-x-5.5"
+	>
+		<svg class="size-3.5 light:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+		</svg>
+		<svg class="size-3.5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<circle cx="12" cy="12" r="5"></circle>
+			<path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+		</svg>
+	</span>
+</button>
+
+<script>
+	type Theme = 'dark' | 'light';
+
+	// Resolution order: stored choice (localStorage "theme") → OS setting → light.
+	// The inline script in Layout.astro applies it before first paint.
+	const root = document.documentElement;
+	const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+	const current = (): Theme => (root.dataset.theme === 'dark' ? 'dark' : 'light');
+
+	function storedTheme(): Theme | null {
+		try {
+			const value = localStorage.getItem('theme');
+			return value === 'light' || value === 'dark' ? value : null;
+		} catch {
+			return null;
+		}
+	}
+
+	// Browser chrome color: the page background of the active theme / dark palette.
+	function themeColor(theme: Theme) {
+		if (theme === 'light') return '#f4ead5';
+		return root.dataset.darkPalette === 'big-stone' ? '#1a2340' : '#615432';
+	}
+
+	function sync() {
+		const isDark = current() === 'dark';
+		for (const toggle of document.querySelectorAll('[data-theme-toggle]')) {
+			toggle.setAttribute('aria-checked', String(isDark));
+		}
+		document.querySelector('meta[name="theme-color"]')?.setAttribute('content', themeColor(current()));
+	}
+
+	function apply(theme: Theme) {
+		if (theme === current()) return;
+		const swap = () => {
+			root.dataset.theme = theme;
+			sync();
+		};
+		// Crossfade the whole page where supported; instant otherwise.
+		if (document.startViewTransition && !reducedMotion.matches) {
+			document.startViewTransition(swap);
+		} else {
+			swap();
+		}
+	}
+
+	for (const toggle of document.querySelectorAll('[data-theme-toggle]')) {
+		toggle.addEventListener('click', () => {
+			const next: Theme = current() === 'dark' ? 'light' : 'dark';
+			try {
+				localStorage.setItem('theme', next);
+			} catch {
+				// Storage unavailable (private mode): the choice lasts for this page view.
+			}
+			apply(next);
+		});
+	}
+
+	// Follow the OS setting live until the visitor makes an explicit choice.
+	systemDark.addEventListener('change', (event) => {
+		if (!storedTheme()) apply(event.matches ? 'dark' : 'light');
+	});
+
+	sync();
+</script>

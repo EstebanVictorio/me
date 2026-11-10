@@ -1,0 +1,44 @@
+/*
+ * Brand defaults for bare elements: the 60 / 30 / 10 ratio starts here.
+ * Background page, foreground text, Rob Roy reserved for links and highlights.
+ * Everything here uses theme roles, so it follows dark / light automatically.
+ */
+
+@layer base {
+  html {
+    @apply bg-background font-body text-body text-foreground antialiased;
+  }
+
+  h1,
+  h2 {
+    @apply font-heading font-normal text-balance;
+  }
+
+  h1 {
+    @apply text-h1;
+  }
+
+  h2 {
+    @apply text-h2;
+  }
+
+  h3 {
+    @apply font-body text-h3 text-balance;
+  }
+
+  p {
+    @apply text-pretty;
+  }
+
+  a {
+    @apply text-accent-ink underline decoration-1 underline-offset-4 transition-colors duration-300 ease-out-quart hover:text-foreground;
+  }
+
+  ::selection {
+    @apply bg-accent text-on-accent;
+  }
+
+  :focus-visible {
+    @apply rounded-sm outline-2 outline-offset-4 outline-accent-ink;
+  }
+}

@@ -1,16 +1,46 @@
 ---
+import ThemeToggle from '../components/ThemeToggle.astro';
+import Layout from '../layouts/Layout.astro';
+import {  } from 'effect'
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Hello, world — Esteban Victorio" description="Hello, world. A first page, with more on the way.">
+	<main class="relative isolate flex min-h-dvh flex-col overflow-hidden px-6 py-8 sm:px-12 sm:py-12 lg:px-20">
+		<canvas id="game" class="absolute w-full h-full left-0 top-0"></canvas>
+		<!-- <div
+			aria-hidden="true"
+			class="absolute -top-10 -right-24 -z-10 size-72 animate-sun rounded-full bg-accent sm:top-16 sm:-right-16 sm:size-96 lg:top-20 lg:right-24 lg:size-112"
+		>
+		</div> -->
+
+		<header class="flex animate-fade items-center justify-end gap-6">
+			<!-- <p class="text-label text-foreground uppercase">Esteban Victorio</p> -->
+			<ThemeToggle />
+		</header>
+
+		<section class="max-w-4xl pt-48">
+			<h1 class="animate-rise font-heading text-display-xl">
+				Hello, <em class="text-accent-ink">world.</em>
+			</h1>
+			<p class="mt-6 max-w-[34ch] animate-rise animate-delay-200 text-large text-foreground-muted sm:mt-8 flex flex-col">
+				<span class="text-foreground">Esteban Victorio,</span>
+				<span class="italic text-accent-ink">Software & Product Engineer</span>
+			</p>
+		</section>
+	</main>
+</Layout>
+
+<script>
+import { GameEngine } from "../game/engine";
+
+	
+  const canvas = document.getElementById('game') as HTMLCanvasElement;
+  if (canvas) {
+    const context = canvas.getContext('2d') as CanvasRenderingContext2D;
+    if (context) {
+			const gameEngine = new GameEngine(canvas);
+			gameEngine.start();
+      // Initialize game rendering here
+    }
+  }
+</script>

@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* Brand design language. Each file owns one concern; order matters
+   (tokens first, then base element styles, then component utilities). */
+@import "./colors.css";
+@import "./typography.css";
+@import "./motion.css";
+@import "./base.css";
+@import "./components.css";

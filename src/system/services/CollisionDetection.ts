@@ -1,8 +1,17 @@
 import { Context } from 'effect'
-import type { GameObject } from '../types';
+import type { GameObject } from '../../game/types';
+import type { SpatialObject } from '../types';
+
+
+interface Trait<O> {
+  collides: (left: O, right: O) => boolean;
+}
+
+export class CollisionDetectionService extends Context.Service<CollisionDetectionService, Trait<GameObject>>()("CollisionDetection") {}
+
 
 export class CollisionDetection {
-  collides(left: GameObject, right: GameObject): boolean {
+  collides(left: SpatialObject, right: SpatialObject): boolean {
     const leftCoords = left.spatialProperties.coordinates;
     const rightCoords = right.spatialProperties.coordinates;
 

@@ -1,7 +1,7 @@
 import { createActor, createMachine } from 'xstate'
 
 
-const loop = createMachine({
+const state = createMachine({
   id: 'loop',
   initial: 'idle',
   states: {
@@ -24,9 +24,9 @@ const loop = createMachine({
   }
 })
 
-const actor = createActor(loop)
+const actor = createActor(state)
 
 export {
-  loop,
+  state,
   actor,
 }

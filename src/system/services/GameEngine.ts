@@ -1,18 +1,20 @@
-import { loop, actor } from '../state/loop'
-import { Ball } from '../entities/ball'
-import { Context } from 'effect';
-
+import { Context } from 'effect'
+import { Ball } from '../../game/entities/ball';
 
 export class GameEngineService extends Context.Service<GameEngineService, GameEngine>()("GameEngineService")  {}
 
 export class GameEngine {
   canvas: HTMLCanvasElement;
+  offscreenCanvas: OffscreenCanvas | null = null;
   context: CanvasRenderingContext2D | null = null;
-  ball: Ball | null = null;
+  ball: Ball;
   constructor(canvas: HTMLCanvasElement) {
     if (!canvas) throw new Error('Canvas element is required');
+
     this.canvas = canvas;
     this.context = this.canvas.getContext('2d');
+    this.offscreenCanvas = new OffscreenCanvas(this.canvas.width, this.canvas.height);
+    
     this.ball = new Ball({
       id: 'ball',
       spatialProperties: {
@@ -28,47 +30,32 @@ export class GameEngine {
     });
   }
 
-  _setContextObjectProperties(context: CanvasRenderingContext2D, ball: Ball) {
+  _setContextObjectProperties(context: OffscreenCanvasRenderingContext2D, ball: Ball) {
     context.fillStyle = 'red'; // Set the fill color for the ball
   }
 
-  _draw() {
-    const context = this.canvas.getContext('2d')!;
-    this.ball = new Ball({
-      id: 'ball',
-      spatialProperties: {
-        pos: { x: 40, y: 50 },
-        size: { width: 10, height: 10 },
-        coordinates: {
-          top: 50,
-          left: 50,
-          right: 60,
-          bottom: 60
-        },
-      }
-    });
-
-    this._setContextObjectProperties(context, this.ball);
-    context.beginPath();
-    context.arc(
+  _draw(pos: Pick<Ball['spatialProperties'], 'pos'>['pos']) {
+    const offscreenCtx = this.offscreenCanvas?.getContext('2d')!
+    this.ball.spatialProperties.pos = pos;
+    this._setContextObjectProperties(offscreenCtx, this.ball);
+    offscreenCtx.beginPath();
+    offscreenCtx.arc(
       this.ball.spatialProperties.pos.x,
       this.ball.spatialProperties.pos.y,
       this.ball.spatialProperties.size.width / 2,
       0,
       Math.PI * 2
     );
-    context.fill();
+    offscreenCtx.fill();
+    this.context?.drawImage(this.offscreenCanvas!, 0, 0);
   }
 
-  start() {
-    actor.start();
-    this._update();
+  start(pos: Pick<Ball['spatialProperties'], 'pos'>['pos']) {
+    this._update(pos);
   }
 
 
-  _update() {
-    do {
-      requestAnimationFrame(() => this._draw());
-    } while (true);
+  _update(pos: Pick<Ball['spatialProperties'], 'pos'>['pos']) {
+    requestAnimationFrame(() => this._draw(pos))
   }
 }

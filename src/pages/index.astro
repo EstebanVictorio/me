@@ -1,7 +1,6 @@
 ---
 import ThemeToggle from '../components/ThemeToggle.astro';
 import Layout from '../layouts/Layout.astro';
-import {  } from 'effect'
 ---
 
 <Layout title="Hello, world — Esteban Victorio" description="Hello, world. A first page, with more on the way.">
@@ -23,7 +22,7 @@ import {  } from 'effect'
 				Hello, <em class="text-accent-ink">world.</em>
 			</h1>
 			<p class="mt-6 max-w-[34ch] animate-rise animate-delay-200 text-large text-foreground-muted sm:mt-8 flex flex-col">
-				<span class="text-foreground">Esteban Victorio,</span>
+				<span class="text-foreground">by Esteban Victorio,</span>
 				<span class="italic text-accent-ink">Software & Product Engineer</span>
 			</p>
 		</section>
@@ -31,16 +30,21 @@ import {  } from 'effect'
 </Layout>
 
 <script>
-import { GameEngine } from "../game/engine";
-
-	
+	import { loop } from "../game/gameplay/loop";
+	import { Effect, Layer } from 'effect';
+import { GameEngineService } from "../system/services/GameEngine";
+import { GameEngine } from "../system/services/GameEngine";
   const canvas = document.getElementById('game') as HTMLCanvasElement;
+	const GameEngineServiceLive =
+		Layer.succeed(
+			GameEngineService,
+			GameEngineService.of(GameEngine)
+		);
+
+	const Colli
   if (canvas) {
-    const context = canvas.getContext('2d') as CanvasRenderingContext2D;
-    if (context) {
-			const gameEngine = new GameEngine(canvas);
-			gameEngine.start();
-      // Initialize game rendering here
-    }
+    Effect.runSync(
+
+		)
   }
 </script>

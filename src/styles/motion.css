@@ -13,7 +13,19 @@
 
   --animate-rise: rise 1.1s var(--ease-out-expo) both;
   --animate-fade: fade 1.4s var(--ease-out-quart) both;
-  --animate-sun: sun 2.2s var(--ease-out-expo) both;
+  --animate-float: float 1.5s var(--ease-out-quart) both;
+
+  @keyframes float {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-0.25rem);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
 
   @keyframes rise {
     from {
@@ -28,13 +40,6 @@
       opacity: 0;
     }
   }
-
-  @keyframes sun {
-    from {
-      opacity: 0;
-      transform: translateY(35%) scale(0.92);
-    }
-  }
 }
 
 @utility animate-delay-* {
@@ -42,7 +47,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
+  .animate-rise,
+  .animate-fade,
   ::before,
   ::after {
     animation-duration: 0.01ms !important;

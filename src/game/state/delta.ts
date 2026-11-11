@@ -1,0 +1,7 @@
+export const DELTA_ACCELERATION = 10;
+export const DELTAS = {
+  rightX: DELTA_ACCELERATION,
+  leftX: DELTA_ACCELERATION,
+  upY: DELTA_ACCELERATION,
+  downY: DELTA_ACCELERATION,
+};

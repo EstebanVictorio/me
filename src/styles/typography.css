@@ -1,3 +1,5 @@
+@import '@fontsource/press-start-2p';
+
 /*
  * Brand typography — from brand-guidelines.pdf (pp. 04–07).
  *
@@ -19,6 +21,7 @@
   --font-body: var(--font-niramit);
   --font-serif: var(--font-cormorant-garamond);
   --font-sans: var(--font-niramit);
+  --font-retro: 'Press Start 2P', serif;
 }
 
 @theme {
@@ -66,4 +69,12 @@
   --text-label--line-height: 1.4;
   --text-label--letter-spacing: 0.12em;
   --text-label--font-weight: 600;
+}
+
+
+
+.retro {
+  font-family: var(--font-retro);
+  font-weight: 400;
+  font-style: normal;
 }

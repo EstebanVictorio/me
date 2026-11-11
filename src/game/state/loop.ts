@@ -1,6 +1,5 @@
 import { createActor, createMachine } from 'xstate'
 
-
 const state = createMachine({
   id: 'loop',
   initial: 'idle',
@@ -12,7 +11,8 @@ const state = createMachine({
     },
     running: {
       on: {
-        STOP: 'idle'
+        STOP: 'idle',
+        PAUSE: 'paused'
       }
     },
     paused: {

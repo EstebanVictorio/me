@@ -4,58 +4,138 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Hello, world — Esteban Victorio" description="Hello, world. A first page, with more on the way.">
-	<main class="relative isolate flex min-h-dvh flex-col overflow-hidden px-6 py-8 sm:px-12 sm:py-12 lg:px-20">
-		<canvas id="game" class="absolute w-full h-full left-0 top-0"></canvas>
-		<!-- <div
-			aria-hidden="true"
-			class="absolute -top-10 -right-24 -z-10 size-72 animate-sun rounded-full bg-accent sm:top-16 sm:-right-16 sm:size-96 lg:top-20 lg:right-24 lg:size-112"
-		>
-		</div> -->
+	<main class="relative isolate flex min-h-dvh flex-col overflow-hidden">
+		<canvas id="game" class="absolute w-full h-full left-0 top-0" width="100%" height="100%"></canvas>
 
-		<header class="flex animate-fade items-center justify-end gap-6">
+		<header class="flex animate-fade items-center justify-end gap-6 px-6 py-8 sm:px-12 sm:py-12 lg:px-20">
 			<!-- <p class="text-label text-foreground uppercase">Esteban Victorio</p> -->
+			<button id="play-button" data-state="idle" class="font-retro cursor-pointer border rounded-full py-2 px-4 hover:bg-accent-ink hover:text-janna-100 dark:hover:text-janna-900">
+				Play
+			</button>
+			<button id="stop-button" disabled class="font-retro cursor-pointer border rounded-full py-2 px-4 hover:bg-accent-ink hover:text-janna-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-transparent! disabled:text-foreground-muted!">
+				Stop
+			</button>
 			<ThemeToggle />
 		</header>
-
-		<section class="max-w-4xl pt-48">
+		<section class="self-end">
+			<span id="game-loop-state" class="absolute"></span>
+		</section>
+		<section class="max-w-4xl pt-48 px-6 py-8 sm:px-12 sm:py-12 lg:px-20">
 			<h1 class="animate-rise font-heading text-display-xl">
-				Hello, <em class="text-accent-ink line-through">world.</em> <em class="text-accent-ink">agents.</em>
+				Hello, <em class="text-accent-ink line-through">world</em> <em class="text-accent-ink">agents.</em>
 			</h1>
 			<p class="mt-6 max-w-[34ch] animate-rise animate-delay-200 text-large text-foreground-muted sm:mt-8 flex flex-col">
 				<span class="text-foreground">by Esteban Victorio,</span>
-				<span class="italic text-accent-ink">Software & Product Engineer</span>
+				<span class="italic text-accent-ink">
+					Tinkerer & Crafter of things
+				</span>
 			</p>
 		</section>
+		<footer class="fixed flex justify-end bottom-0 left-0 py-4 px-8 border-t w-full">
+			Artwork, assets and gameplay designed and hand-crafted with care by&nbsp;<a class="underline" href="https://x.com/evictorio92" target="_blank" rel="noopener noreferrer">Esteban Victorio</a>
+		</footer>
 	</main>
 </Layout>
 
 <script>
 	import { loop } from "../game/gameplay/loop";
+	import { actor } from "../game/state/loop";
 	import { Effect, Layer } from 'effect';
-import { GameEngineService } from "../system/services/GameEngine";
-import { GameEngine } from "../system/services/GameEngine";
-import { CollisionDetection, CollisionDetectionService } from "../system/services/CollisionDetection";
-  const canvas = document.getElementById('game') as HTMLCanvasElement;
-	const GameEngineServiceLive =
-		Layer.succeed(
-			GameEngineService,
-			GameEngineService.of(new GameEngine(canvas))
+	import { DELTAS } from "../game/state/delta";
+	import { GameEngineService } from "../system/services/GameEngine";
+	import { GameEngine } from "../system/services/GameEngine";
+	import { CollisionDetection, CollisionDetectionService } from "../system/services/CollisionDetection";
+import { IO, IOService } from "../system/services/IO";
+	const canvas = document.getElementById('game') as HTMLCanvasElement;
+	if (canvas) {
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+		window.addEventListener('resize', () => {
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		})
+
+		const GameEngineServiceLive =
+			Layer.succeed(
+				GameEngineService,
+				GameEngineService.of(new GameEngine(canvas))
+			);
+
+		const CollisionDetectionServiceLive =
+			Layer.succeed(
+				CollisionDetectionService,
+				CollisionDetectionService.of(new CollisionDetection())
+			);
+
+		const IOServiceLive =
+			Layer.succeed(
+				IOService,
+				IOService.of(new IO(window, DELTAS))
+			);
+
+		const AppLive = Layer.merge(
+			GameEngineServiceLive,
+			CollisionDetectionServiceLive,
+		).pipe(
+			Layer.merge(IOServiceLive)
 		);
 
-	const CollisionDetectionServiceLive =
-		Layer.succeed(
-			CollisionDetectionService,
-			CollisionDetectionService.of(new CollisionDetection())
-		);
+		const playButton = document.getElementById('play-button');
+		const stopButton = document.getElementById('stop-button');
+		const handlePlayButtonClick = (e: MouseEvent) => {
+			const state = (e.currentTarget as HTMLButtonElement).dataset.state;
+			if (state === 'idle') {
+				actor.start();
+				(e.currentTarget as HTMLButtonElement).dataset.state = 'running';
+				(e.currentTarget as HTMLButtonElement).textContent = 'Pause';
+				actor.send({ type: 'START' });
+				if (stopButton) stopButton.removeAttribute('disabled');
+				Effect.runPromise(
+					Effect.provide(loop, AppLive)
+				)
+				return;
+			}
 
-	const AppLive = Layer.merge(
-		GameEngineServiceLive,
-		CollisionDetectionServiceLive
-	);
+			if (state === 'running') {
+				actor.send({ type: 'PAUSE' });
+				(e.currentTarget as HTMLButtonElement).textContent = 'Resume';
+				(e.currentTarget as HTMLButtonElement).dataset.state = 'paused';
+				return;
+			}
 
-  if (canvas) {
-		// Effect.runPromise(
-		// 	Effect.provide(loop, AppLive)
-		// )
-  }
+			if (state === 'paused') {
+				actor.send({ type: 'RESUME' });
+				(e.currentTarget as HTMLButtonElement).textContent = 'Pause';
+				(e.currentTarget as HTMLButtonElement).dataset.state = 'running';
+				return;
+			}
+		}
+
+		if (stopButton) {
+			stopButton.setAttribute('disabled', 'true');
+		}
+
+		if (playButton) {
+			playButton.textContent = 'Play';
+			playButton.addEventListener('click', handlePlayButtonClick);
+		}
+
+		const sub = actor.subscribe((state) => {
+			const gameLoopState = document.getElementById('game-loop-state');
+			if (gameLoopState) gameLoopState.textContent = state.value as string;
+
+			const stopButton = document.getElementById('stop-button');
+			if (stopButton) {
+				stopButton.addEventListener('click', () => {
+					actor.send({ type: 'STOP' });
+					stopButton.setAttribute('disabled', 'true');
+					if (playButton) {
+						playButton.dataset.state = 'idle';
+						playButton.textContent = 'Play';
+					}
+					sub.unsubscribe();
+				});
+			}
+		});
+	}
 </script>

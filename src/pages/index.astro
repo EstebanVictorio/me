@@ -19,7 +19,7 @@ import Layout from '../layouts/Layout.astro';
 
 		<section class="max-w-4xl pt-48">
 			<h1 class="animate-rise font-heading text-display-xl">
-				Hello, <em class="text-accent-ink">world.</em>
+				Hello, <em class="text-accent-ink line-through">world.</em> <em class="text-accent-ink">agents.</em>
 			</h1>
 			<p class="mt-6 max-w-[34ch] animate-rise animate-delay-200 text-large text-foreground-muted sm:mt-8 flex flex-col">
 				<span class="text-foreground">by Esteban Victorio,</span>
@@ -34,17 +34,28 @@ import Layout from '../layouts/Layout.astro';
 	import { Effect, Layer } from 'effect';
 import { GameEngineService } from "../system/services/GameEngine";
 import { GameEngine } from "../system/services/GameEngine";
+import { CollisionDetection, CollisionDetectionService } from "../system/services/CollisionDetection";
   const canvas = document.getElementById('game') as HTMLCanvasElement;
 	const GameEngineServiceLive =
 		Layer.succeed(
 			GameEngineService,
-			GameEngineService.of(GameEngine)
+			GameEngineService.of(new GameEngine(canvas))
 		);
 
-	const Colli
-  if (canvas) {
-    Effect.runSync(
+	const CollisionDetectionServiceLive =
+		Layer.succeed(
+			CollisionDetectionService,
+			CollisionDetectionService.of(new CollisionDetection())
+		);
 
-		)
+	const AppLive = Layer.merge(
+		GameEngineServiceLive,
+		CollisionDetectionServiceLive
+	);
+
+  if (canvas) {
+		// Effect.runPromise(
+		// 	Effect.provide(loop, AppLive)
+		// )
   }
 </script>

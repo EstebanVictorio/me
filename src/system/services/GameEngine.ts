@@ -1,48 +1,31 @@
 import { Context } from 'effect'
-import { Ball } from '../../game/entities/ball';
-
 export class GameEngineService extends Context.Service<GameEngineService, GameEngine>()("GameEngineService")  {}
-
 export class GameEngine {
   canvas: HTMLCanvasElement;
   offscreenCanvas: OffscreenCanvas | null = null;
   context: CanvasRenderingContext2D | null = null;
-  ball: Ball;
   constructor(canvas: HTMLCanvasElement) {
     if (!canvas) throw new Error('Canvas element is required');
 
     this.canvas = canvas;
     this.context = this.canvas.getContext('2d');
     this.offscreenCanvas = new OffscreenCanvas(this.canvas.width, this.canvas.height);
-    
-    this.ball = new Ball({
-      id: 'ball',
-      spatialProperties: {
-        pos: { x: 0, y: 0 },
-        size: { width: 10, height: 10 },
-        coordinates: {
-          top: 50,
-          left: 50,
-          right: 60,
-          bottom: 60
-        },
-      }
-    });
   }
 
-  _setContextObjectProperties(context: OffscreenCanvasRenderingContext2D, ball: Ball) {
+  _setContextObjectProperties(context: OffscreenCanvasRenderingContext2D) {
     context.fillStyle = 'red'; // Set the fill color for the ball
   }
 
-  _draw(pos: Pick<Ball['spatialProperties'], 'pos'>['pos']) {
+  _drawArc(pos: { x: number, y: number }, size: { width: number, height: number }) {
     const offscreenCtx = this.offscreenCanvas?.getContext('2d')!
-    this.ball.spatialProperties.pos = pos;
-    this._setContextObjectProperties(offscreenCtx, this.ball);
+    this._setContextObjectProperties(offscreenCtx);
+    offscreenCtx.clearRect(0, 0, this.offscreenCanvas!.width, this.offscreenCanvas!.height);
+    this.context?.clearRect(0, 0, this.canvas.width, this.canvas.height);
     offscreenCtx.beginPath();
     offscreenCtx.arc(
-      this.ball.spatialProperties.pos.x,
-      this.ball.spatialProperties.pos.y,
-      this.ball.spatialProperties.size.width / 2,
+      pos.x,
+      pos.y,
+      size.width / 2,
       0,
       Math.PI * 2
     );
@@ -50,12 +33,16 @@ export class GameEngine {
     this.context?.drawImage(this.offscreenCanvas!, 0, 0);
   }
 
-  start(pos: Pick<Ball['spatialProperties'], 'pos'>['pos']) {
-    this._update(pos);
+  getWorldSize() {
+    return {
+      top: 0,
+      left: 0,
+      right: this.canvas.width,
+      bottom: this.canvas.height
+    }
   }
 
-
-  _update(pos: Pick<Ball['spatialProperties'], 'pos'>['pos']) {
-    requestAnimationFrame(() => this._draw(pos))
+  draw(pos: { x: number, y: number }, size: { width: number, height: number }) {
+    requestAnimationFrame(() => this._drawArc(pos, size))
   }
 }

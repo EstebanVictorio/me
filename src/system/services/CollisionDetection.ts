@@ -4,25 +4,29 @@ import type { SpatialObject } from '../types';
 
 
 interface Trait<O> {
-  collides: (left: O, right: O) => boolean;
+  calcCollissions: (left: O, right: O) => { collissions: { left: boolean, right: boolean, top: boolean, bottom: boolean } };
 }
 
 export class CollisionDetectionService extends Context.Service<CollisionDetectionService, Trait<GameObject>>()("CollisionDetection") {}
 
 
 export class CollisionDetection {
-  collides(left: SpatialObject, right: SpatialObject): boolean {
+  calcCollissions(left: SpatialObject, right: SpatialObject) {
     const leftCoords = left.spatialProperties.coordinates;
     const rightCoords = right.spatialProperties.coordinates;
 
-    const collisionExists =
-     !(
-      leftCoords.right < rightCoords.left ||
-      leftCoords.left > rightCoords.right ||
-      leftCoords.bottom < rightCoords.top ||
-      leftCoords.top > rightCoords.bottom
-    );
+    const leftSideCollision = !(leftCoords.right < rightCoords.left)
+    const rightSideCollision = !(leftCoords.left > rightCoords.right)
+    const topSideCollision = !(leftCoords.bottom < rightCoords.top)
+    const bottomSideCollision = !(leftCoords.top > rightCoords.bottom)
 
-    return collisionExists;
+    return {
+      collissions: {
+        left: leftSideCollision,
+        right: rightSideCollision,
+        top: topSideCollision,
+        bottom: bottomSideCollision
+      },
+    };
   }
 }
